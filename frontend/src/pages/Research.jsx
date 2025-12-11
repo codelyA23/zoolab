@@ -4,7 +4,7 @@ const Research = () => {
     const [animals, setAnimals] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:3000/api/animals')
+        fetch('/api/animals')
             .then(res => res.json())
             .then(data => {
                 if (data.status === 'success') setAnimals(data.data);

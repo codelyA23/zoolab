@@ -4,7 +4,7 @@ const Species = () => {
     const [speciesList, setSpeciesList] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:3000/api/species')
+        fetch('/api/species')
             .then(res => res.json())
             .then(data => {
                 if (data.status === 'success') setSpeciesList(data.data);

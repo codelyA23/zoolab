@@ -28,7 +28,7 @@ const Animals = () => {
 
     const fetchAnimals = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/animals');
+            const response = await fetch('/api/animals');
             const data = await response.json();
             if (data.status === 'success') setAnimals(data.data);
             else setError(data.message);
@@ -42,8 +42,8 @@ const Animals = () => {
     const fetchResources = async () => {
         try {
             const [specRes, habRes] = await Promise.all([
-                fetch('http://localhost:3000/api/species'),
-                fetch('http://localhost:3000/api/habitats')
+                fetch('/api/species'),
+                fetch('/api/habitats')
             ]);
 
             const specData = await specRes.json();
@@ -90,7 +90,7 @@ const Animals = () => {
         if (!window.confirm('Are you sure you want to delete this animal?')) return;
 
         try {
-            const res = await fetch(`http://localhost:3000/api/animals/${id}`, { method: 'DELETE' });
+            const res = await fetch(`/api/animals/${id}`, { method: 'DELETE' });
             const data = await res.json();
             if (data.status === 'success') {
                 fetchAnimals();
@@ -106,8 +106,8 @@ const Animals = () => {
         e.preventDefault();
 
         const url = isEditing
-            ? `http://localhost:3000/api/animals/${currentId}`
-            : 'http://localhost:3000/api/animals';
+            ? `/api/animals/${currentId}`
+            : '/api/animals';
 
         const method = isEditing ? 'PUT' : 'POST';
 

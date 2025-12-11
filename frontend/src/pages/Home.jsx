@@ -14,8 +14,8 @@ const Home = () => {
     const fetchStats = async () => {
         try {
             // We can reuse the existing endpoints to get counts
-            const animalsRes = await fetch('http://localhost:3000/api/animals');
-            const speciesRes = await fetch('http://localhost:3000/api/species');
+            const animalsRes = await fetch('/api/animals');
+            const speciesRes = await fetch('/api/species');
             const animalsData = await animalsRes.json();
             const speciesData = await speciesRes.json();
 
