@@ -1,14 +1,20 @@
 import { useNavigate, NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, Settings, Cloud, Cat, LogOut, Home } from 'lucide-react';
+import { LayoutDashboard, Settings, Cloud, Cat, LogOut, Home, X } from 'lucide-react';
 
-const Sidebar = () => {
+const Sidebar = ({ onClose }) => {
     const { logout } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = () => {
         logout();
         navigate('/');
+        if (onClose) onClose();
+    };
+
+    const handleNavigate = (path) => {
+        navigate(path);
+        if (onClose) onClose();
     };
 
     const navItems = [
@@ -19,13 +25,23 @@ const Sidebar = () => {
 
     return (
         <aside className="w-64 bg-surface border-r border-gray-800 flex flex-col h-full">
-            <div className="p-6 flex items-center space-x-3 border-b border-gray-800">
-                <div className="bg-primary/20 p-2 rounded-lg">
-                    <Cloud className="w-6 h-6 text-primary" />
+            <div className="p-6 flex items-center justify-between border-b border-gray-800">
+                <div className="flex items-center space-x-3">
+                    <div className="bg-primary/20 p-2 rounded-lg">
+                        <Cloud className="w-6 h-6 text-primary" />
+                    </div>
+                    <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
+                        Zoolab
+                    </span>
                 </div>
-                <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-                    Zoolab
-                </span>
+                {onClose && (
+                    <button
+                        onClick={onClose}
+                        className="lg:hidden p-2 rounded-lg hover:bg-gray-800 transition-colors"
+                    >
+                        <X className="w-5 h-5 text-white" />
+                    </button>
+                )}
             </div>
 
             <nav className="flex-1 p-4 space-y-2">
@@ -33,6 +49,7 @@ const Sidebar = () => {
                     <NavLink
                         key={item.path}
                         to={item.path}
+                        onClick={onClose}
                         className={({ isActive }) =>
                             `flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group ${isActive
                                 ? 'bg-primary/10 text-primary'
@@ -50,7 +67,7 @@ const Sidebar = () => {
                 {/* Navigation Actions */}
                 <div className="space-y-2">
                     <button
-                        onClick={() => navigate('/')}
+                        onClick={() => handleNavigate('/')}
                         className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-text-muted hover:bg-white/5 hover:text-white transition-colors"
                     >
                         <Home className="w-5 h-5" />

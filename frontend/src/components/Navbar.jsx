@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Cloud, Lock, LogOut, LayoutDashboard } from 'lucide-react';
+import { Cloud, Lock, LogOut, LayoutDashboard, Menu, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const handleLogout = () => {
         logout();
         navigate('/');
+        setMobileMenuOpen(false);
     };
 
     const navLinks = [
@@ -19,6 +21,8 @@ const Navbar = () => {
         { label: 'About Us', path: '/about' },
         { label: 'Contact', path: '/contact' },
     ];
+
+    const closeMobileMenu = () => setMobileMenuOpen(false);
 
     return (
         <nav className="bg-surface/80 backdrop-blur-md border-b border-gray-800 sticky top-0 z-50">
@@ -50,8 +54,8 @@ const Navbar = () => {
                         ))}
                     </div>
 
-                    {/* Auth Actions */}
-                    <div>
+                    {/* Desktop Auth Actions */}
+                    <div className="hidden md:block">
                         {user ? (
                             <div className="flex items-center space-x-4">
                                 <NavLink
@@ -60,7 +64,7 @@ const Navbar = () => {
                                     title="Dashboard"
                                 >
                                     <LayoutDashboard className="w-5 h-5" />
-                                    <span className="hidden sm:inline text-sm font-medium">Dashboard</span>
+                                    <span className="text-sm font-medium">Dashboard</span>
                                 </NavLink>
                                 <button
                                     onClick={handleLogout}
@@ -80,10 +84,76 @@ const Navbar = () => {
                             </NavLink>
                         )}
                     </div>
+
+                    {/* Mobile Menu Button */}
+                    <button
+                        className="md:hidden p-2 rounded-lg hover:bg-gray-800 transition-colors"
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                    >
+                        {mobileMenuOpen ? (
+                            <X className="w-6 h-6 text-white" />
+                        ) : (
+                            <Menu className="w-6 h-6 text-white" />
+                        )}
+                    </button>
                 </div>
             </div>
+
+            {/* Mobile Menu */}
+            {mobileMenuOpen && (
+                <div className="md:hidden bg-surface border-t border-gray-800">
+                    <div className="px-4 py-4 space-y-2">
+                        {navLinks.map((link) => (
+                            <NavLink
+                                key={link.path}
+                                to={link.path}
+                                onClick={closeMobileMenu}
+                                className={({ isActive }) =>
+                                    `block px-4 py-3 rounded-lg text-base font-medium transition-colors ${isActive ? 'bg-primary/10 text-primary' : 'text-text-muted hover:bg-gray-800 hover:text-white'
+                                    }`
+                                }
+                            >
+                                {link.label}
+                            </NavLink>
+                        ))}
+
+                        {/* Mobile Auth */}
+                        <div className="pt-4 border-t border-gray-800 mt-4">
+                            {user ? (
+                                <>
+                                    <NavLink
+                                        to="/admin"
+                                        onClick={closeMobileMenu}
+                                        className="flex items-center space-x-2 px-4 py-3 rounded-lg text-text-muted hover:bg-gray-800 hover:text-white"
+                                    >
+                                        <LayoutDashboard className="w-5 h-5" />
+                                        <span>Dashboard</span>
+                                    </NavLink>
+                                    <button
+                                        onClick={handleLogout}
+                                        className="w-full flex items-center space-x-2 px-4 py-3 rounded-lg text-red-400 hover:bg-red-500/10"
+                                    >
+                                        <LogOut className="w-5 h-5" />
+                                        <span>Logout</span>
+                                    </button>
+                                </>
+                            ) : (
+                                <NavLink
+                                    to="/login"
+                                    onClick={closeMobileMenu}
+                                    className="flex items-center space-x-2 px-4 py-3 rounded-lg bg-gray-800 text-text-muted"
+                                >
+                                    <Lock className="w-5 h-5" />
+                                    <span>Staff Portal</span>
+                                </NavLink>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </nav>
     );
 };
 
 export default Navbar;
+

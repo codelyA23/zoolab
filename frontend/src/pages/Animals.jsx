@@ -131,32 +131,30 @@ const Animals = () => {
     };
 
     return (
-        <div className="p-8 space-y-8">
-            <div className="flex justify-between items-center">
+        <div className="p-4 sm:p-8 space-y-6 sm:space-y-8">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                 <div>
-                    <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+                    <h1 className="text-2xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
                         Animal Management
                     </h1>
-                    <p className="text-text-muted mt-2">View and manage the research subjects.</p>
+                    <p className="text-text-muted mt-2 text-sm sm:text-base">View and manage the research subjects.</p>
                 </div>
                 <button
                     onClick={handleAddClick}
-                    className="bg-primary hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors"
+                    className="bg-primary hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center justify-center space-x-2 transition-colors w-full sm:w-auto"
                 >
                     <Plus className="w-5 h-5" />
                     <span>Add Animal</span>
                 </button>
             </div>
 
-            <div className="flex space-x-4">
-                <div className="relative flex-1 max-w-md">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted w-5 h-5" />
-                    <input
-                        type="text"
-                        placeholder="Search animals..."
-                        className="w-full bg-surface border border-gray-800 rounded-lg pl-10 pr-4 py-2 text-white focus:outline-none focus:border-primary"
-                    />
-                </div>
+            <div className="relative max-w-full sm:max-w-md">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted w-5 h-5" />
+                <input
+                    type="text"
+                    placeholder="Search animals..."
+                    className="w-full bg-surface border border-gray-800 rounded-lg pl-10 pr-4 py-2 text-white focus:outline-none focus:border-primary"
+                />
             </div>
 
             <div className="bg-surface rounded-xl border border-gray-800 overflow-hidden">
@@ -207,8 +205,8 @@ const Animals = () => {
 
             {/* Modal */}
             {isModalOpen && (
-                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-                    <div className="bg-surface border border-gray-700 rounded-xl p-6 w-full max-w-2xl shadow-2xl">
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-surface border border-gray-700 rounded-xl p-4 sm:p-6 w-full max-w-2xl shadow-2xl max-h-[90vh] overflow-y-auto">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-bold text-white">
                                 {isEditing ? 'Edit Animal' : 'Add New Animal'}
